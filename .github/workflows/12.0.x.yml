@@ -9,10 +9,10 @@ on:
 
 jobs:
   full:
-    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-11.0.x
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
     with:
       repo: vanilla-dpup/woof-CE
-      ref: vanilladpup-11.0.x
+      ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
       version: 12.0.${{ github.run_number }}
       arch: x86_64
@@ -23,10 +23,10 @@ jobs:
       artifact: vanilladpup-x86_64-12.0.${{ github.run_number }}-full
       retention: 1
   mini:
-    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-11.0.x
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
     with:
       repo: vanilla-dpup/woof-CE
-      ref: vanilladpup-11.0.x
+      ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
       version: 12.0.${{ github.run_number }}
       arch: x86_64
@@ -38,10 +38,10 @@ jobs:
       retention: 1
       variant: mini
   barebones:
-    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-11.0.x
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
     with:
       repo: vanilla-dpup/woof-CE
-      ref: vanilladpup-11.0.x
+      ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
       version: 12.0.${{ github.run_number }}
       arch: x86_64
