@@ -1,4 +1,4 @@
-name: 12.0.x
+name: 13.0.x
 
 on:
   schedule:
@@ -14,13 +14,13 @@ jobs:
       repo: vanilla-dpup/woof-CE
       ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
-      version: 12.0.${{ github.run_number }}
+      version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
       compat-distro-version: unstable64
       kernel: debian-unstable
       prefix: vanilladpup
-      artifact: vanilladpup-x86_64-12.0.${{ github.run_number }}-full
+      artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-full
       retention: 1
   mini:
     uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
@@ -28,13 +28,13 @@ jobs:
       repo: vanilla-dpup/woof-CE
       ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
-      version: 12.0.${{ github.run_number }}
+      version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
       compat-distro-version: unstable64
       kernel: debian-unstable
       prefix: vanilladpup
-      artifact: vanilladpup-x86_64-12.0.${{ github.run_number }}-mini
+      artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-mini
       retention: 1
       variant: mini
   barebones:
@@ -43,13 +43,13 @@ jobs:
       repo: vanilla-dpup/woof-CE
       ref: vanilladpup-12.0.x
       name: "Vanilla Dpup"
-      version: 12.0.${{ github.run_number }}
+      version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
       compat-distro-version: unstable64
       kernel: debian-unstable
       prefix: vanilladpup
-      artifact: vanilladpup-x86_64-12.0.${{ github.run_number }}-barebones
+      artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones
       retention: 1
       variant: barebones
   upload:
@@ -59,30 +59,30 @@ jobs:
       - name: Download full build artifact
         uses: actions/download-artifact@v4
         with:
-          name: vanilladpup-x86_64-12.0.${{ github.run_number }}-full
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}-full
           path: full
       - name: Download mini build artifact
         uses: actions/download-artifact@v4
         with:
-          name: vanilladpup-x86_64-12.0.${{ github.run_number }}-mini
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}-mini
           path: mini
       - name: Download barebones build artifact
         uses: actions/download-artifact@v4
         with:
-          name: vanilladpup-x86_64-12.0.${{ github.run_number }}-barebones
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones
           path: barebones
       - name: Rename files
         run: |
           for x in full mini barebones; do
-              mv -f $x/*-bios.img.gz vanilladpup-12.0.${{ github.run_number }}-$x-bios.img.gz || exit 1
-              mv -f $x/*-uefi.img.gz vanilladpup-12.0.${{ github.run_number }}-$x-uefi.img.gz || exit 1
+              mv -f $x/*-bios.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-bios.img.gz || exit 1
+              mv -f $x/*-uefi.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-uefi.img.gz || exit 1
               mv -f $x/woof-CE.tar.gz woof-CE-$x.tar.gz || exit 1
           done
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: vanilladpup-x86_64-12.0.${{ github.run_number }}
-          tag_name: vanilladpup-x86_64-12.0.${{ github.run_number }}
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}
+          tag_name: vanilladpup-x86_64-13.0.${{ github.run_number }}
           fail_on_unmatched_files: true
           files: |
             *.img.gz
