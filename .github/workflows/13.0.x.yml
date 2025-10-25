@@ -74,8 +74,8 @@ jobs:
       - name: Rename files
         run: |
           for x in full mini barebones; do
-              mv -f $x/*-bios.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-bios.img.gz || exit 1
-              mv -f $x/*-uefi.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-uefi.img.gz || exit 1
+              mv -f $x/*-bios.img vanilladpup-13.0.${{ github.run_number }}-$x-bios.img || exit 1
+              mv -f $x/*-uefi.img vanilladpup-13.0.${{ github.run_number }}-$x-uefi.img || exit 1
               mv -f $x/woof-CE.tar.gz woof-CE-$x.tar.gz || exit 1
           done
       - name: Create Release
@@ -85,7 +85,7 @@ jobs:
           tag_name: vanilladpup-x86_64-13.0.${{ github.run_number }}
           fail_on_unmatched_files: true
           files: |
-            *.img.gz
+            *.img
             woof-CE-*.tar.gz
   cleanup:
     needs: [upload]
