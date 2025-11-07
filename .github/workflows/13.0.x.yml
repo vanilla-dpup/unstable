@@ -17,8 +17,8 @@ jobs:
       version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
-      compat-distro-version: unstable64
-      kernel: debian-unstable
+      compat-distro-version: unstable
+      compat-distro-kernel-version: unstable
       prefix: vanilladpup
       artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-full
       retention: 1
@@ -31,8 +31,8 @@ jobs:
       version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
-      compat-distro-version: unstable64
-      kernel: debian-unstable
+      compat-distro-version: unstable
+      compat-distro-kernel-version: unstable
       prefix: vanilladpup
       artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-mini
       retention: 1
@@ -46,14 +46,44 @@ jobs:
       version: 13.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
-      compat-distro-version: unstable64
-      kernel: debian-unstable
+      compat-distro-version: unstable
+      compat-distro-kernel-version: unstable
       prefix: vanilladpup
       artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones
       retention: 1
       variant: barebones
+  barebones-oldkernel:
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
+    with:
+      repo: vanilla-dpup/woof-CE
+      ref: vanilladpup-12.0.x
+      name: "Vanilla Dpup"
+      version: 13.0.${{ github.run_number }}
+      arch: x86_64
+      compat-distro: debian
+      compat-distro-version: unstable
+      compat-distro-kernel-version: trixie
+      prefix: vanilladpup
+      artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones-oldkernel
+      retention: 1
+      variant: barebones
+  barebones-oldoldkernel:
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-12.0.x
+    with:
+      repo: vanilla-dpup/woof-CE
+      ref: vanilladpup-12.0.x
+      name: "Vanilla Dpup"
+      version: 13.0.${{ github.run_number }}
+      arch: x86_64
+      compat-distro: debian
+      compat-distro-version: unstable
+      compat-distro-kernel-version: bookworm
+      prefix: vanilladpup
+      artifact: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones-oldoldkernel
+      retention: 1
+      variant: barebones
   upload:
-    needs: [full, mini, barebones]
+    needs: [full, mini, barebones, barebones-oldkernel, barebones-oldoldkernel]
     runs-on: ubuntu-24.04
     steps:
       - name: Download full build artifact
@@ -71,9 +101,19 @@ jobs:
         with:
           name: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones
           path: barebones
+      - name: Download barebones-oldkernel build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones-oldkernel
+          path: barebones-oldkernel
+      - name: Download barebones-oldoldkernel build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vanilladpup-x86_64-13.0.${{ github.run_number }}-barebones-oldoldkernel
+          path: barebones-oldoldkernel
       - name: Rename files
         run: |
-          for x in full mini barebones; do
+          for x in full mini barebones barebones-oldkernel barebones-oldoldkernel; do
               mv -f $x/*-bios.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-bios.img.gz || exit 1
               mv -f $x/*-uefi.img.gz vanilladpup-13.0.${{ github.run_number }}-$x-uefi.img.gz || exit 1
               mv -f $x/woof-CE.tar.gz woof-CE-$x.tar.gz || exit 1
